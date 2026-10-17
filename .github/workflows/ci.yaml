@@ -1,0 +1,43 @@
+name: Test train and verify container
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+      - name: Install exact dependencies
+        run: python -m pip install -r requirements-lock.txt
+      - name: Lint
+        run: python -m ruff check .
+      - name: Unit and API tests
+        run: |
+          mkdir -p reports/evidence
+          python -m pytest -q --junitxml=reports/evidence/test_results.xml
+      - name: Reproduce EDA and training
+        run: python -m heart_risk.cli all
+      - name: Verify model serialization
+        run: python -m heart_risk.cli predict
+      - name: Isolated Docker build and API smoke test
+        run: bash scripts/verify_docker.sh
+      - name: Collect artifacts and logs even on failure
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: model-and-verification-${{ github.run_number }}
+          path: |
+            models/
+            reports/
+            data/source_manifest.json
+            mlflow.db
+            mlartifacts/
+          retention-days: 14

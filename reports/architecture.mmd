@@ -1,0 +1,19 @@
+flowchart LR
+    UCI[Official UCI Cleveland data] --> CLEAN[Clean schema and map target]
+    CLEAN --> EDA[EDA figures]
+    CLEAN --> SPLIT[Stratified 80/20 split]
+    SPLIT --> CV[Training-only 5-fold CV]
+    CV --> PREP[Impute scale and one-hot encode inside folds]
+    PREP --> LR[Logistic Regression]
+    PREP --> RF[Random Forest]
+    LR --> TRACK[MLflow params metrics models and plots]
+    RF --> TRACK
+    TRACK --> PICK[Select by mean CV ROC-AUC]
+    PICK --> HOLDOUT[Evaluate winner on untouched holdout]
+    HOLDOUT --> MODEL[Serialized full pipeline]
+    MODEL --> API[FastAPI JSON predictions]
+    API --> IMAGE[Non-root Docker image]
+    IMAGE --> K8S[Kubernetes 2 replicas and LoadBalancer]
+    API --> METRICS[Structured logs and Prometheus metrics]
+    METRICS --> GRAFANA[Grafana dashboard]
+    CI[GitHub Actions lint tests train and Docker check] --> MODEL

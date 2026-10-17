@@ -1,0 +1,25 @@
+{
+  "rows": 303,
+  "features": 13,
+  "class_counts": {
+    "0": 164,
+    "1": 139
+  },
+  "missing_values": {
+    "age": 0,
+    "sex": 0,
+    "chest_pain_type": 0,
+    "resting_blood_pressure": 0,
+    "cholesterol": 0,
+    "high_fasting_blood_sugar": 0,
+    "resting_ecg": 0,
+    "maximum_heart_rate": 0,
+    "exercise_angina": 0,
+    "st_depression": 0,
+    "st_slope": 0,
+    "major_vessels": 4,
+    "thalassemia_test": 2,
+    "heart_disease": 0
+  },
+  "duplicate_rows": 0
+}

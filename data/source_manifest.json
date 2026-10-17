@@ -1,0 +1,27 @@
+{
+  "source_url": "https://archive.ics.uci.edu/static/public/45/heart+disease.zip",
+  "source_file": "processed.cleveland.data",
+  "source_sha256": "a74b7efa387bc9d108d7d0115d831fe9b414b29ae7124f331b622b4efa0427c8",
+  "cleaned_sha256": "55e01b4fcb074fc0d33a22f10492ae1ef298cf6c819123f62fbc688883ce3db2",
+  "source_rows": 303,
+  "cleaned_rows": 303,
+  "missing_values": {
+    "age": 0,
+    "sex": 0,
+    "chest_pain_type": 0,
+    "resting_blood_pressure": 0,
+    "cholesterol": 0,
+    "high_fasting_blood_sugar": 0,
+    "resting_ecg": 0,
+    "maximum_heart_rate": 0,
+    "exercise_angina": 0,
+    "st_depression": 0,
+    "st_slope": 0,
+    "major_vessels": 4,
+    "thalassemia_test": 2,
+    "heart_disease": 0
+  },
+  "target_rule": "diagnosis > 0 maps to 1; diagnosis == 0 maps to 0",
+  "license": "CC BY 4.0",
+  "citation": "https://doi.org/10.24432/C52P4X"
+}
