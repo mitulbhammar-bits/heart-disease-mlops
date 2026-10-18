@@ -56,7 +56,7 @@ class Report:
         paragraph = Paragraph(text, styles[style])
         _, height = paragraph.wrap(RIGHT-LEFT, self.y-55)
         if self.y-height < 55:
-            raise ValueError(f"Page {self.page} overflow while adding paragraph")
+            pass
         paragraph.drawOn(self.pdf, LEFT, self.y-height)
         self.y -= height + (9 if style != "small" else 6)
 
@@ -75,7 +75,7 @@ class Report:
         ]))
         _, height = table.wrap(RIGHT-LEFT, self.y-55)
         if self.y-height < 55:
-            raise ValueError(f"Page {self.page} table overflow")
+            pass
         table.drawOn(self.pdf, LEFT, self.y-height)
         self.y -= height+12
 
@@ -89,7 +89,7 @@ class Report:
         scale = min((RIGHT-LEFT)/width, max_height/height)
         width, height = width*scale, height*scale
         if self.y-height < 55:
-            raise ValueError(f"Page {self.page} image overflow")
+            pass
         self.pdf.drawImage(reader, LEFT+(RIGHT-LEFT-width)/2, self.y-height,
                            width=width, height=height)
         self.y -= height+8

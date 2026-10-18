@@ -4,7 +4,7 @@
     "C": 1.0
   },
   "selection_metric": "mean 5-fold training-only ROC-AUC",
-  "selected_run_id": "7b27696503ac44b5bc44a992066d98a1",
+  "selected_run_id": "8ed6495200034938b9d588a0b78d8693",
   "cv_roc_auc": 0.9024931590148981,
   "holdout_metrics": {
     "accuracy": 0.8852459016393442,
@@ -31,8 +31,8 @@
     "major_vessels",
     "thalassemia_test"
   ],
-  "model_sha256": "8cc6ee3002dddf85aa7c8308c70a205a88e807270d060d2b44e5f79fdf83da0d",
+  "model_sha256": "6b413423767adfc618bb21563f7b7361ce137c132d45743070178518420a1af5",
   "data_sha256": "55e01b4fcb074fc0d33a22f10492ae1ef298cf6c819123f62fbc688883ce3db2",
-  "python": "3.12.14",
+  "python": "3.12.9",
   "use": "Educational demonstration only"
 }

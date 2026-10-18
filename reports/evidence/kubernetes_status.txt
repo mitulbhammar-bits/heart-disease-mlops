@@ -1,0 +1,9 @@
+NAME                            READY   STATUS    RESTARTS   AGE   IP           NODE       NOMINATED NODE   READINESS GATES
+pod/heart-api-dbdd778c9-6xkb4   1/1     Running   0          11s   10.244.0.5   minikube   <none>           <none>
+pod/heart-api-dbdd778c9-9z6sq   1/1     Running   0          11s   10.244.0.4   minikube   <none>           <none>
+
+NAME                        READY   UP-TO-DATE   AVAILABLE   AGE   CONTAINERS   IMAGES                 SELECTOR
+deployment.apps/heart-api   2/2     2            2           11s   heart-api    heart-risk-api:1.0.0   app=heart-api
+
+NAME                TYPE           CLUSTER-IP       EXTERNAL-IP   PORT(S)        AGE   SELECTOR
+service/heart-api   LoadBalancer   10.110.195.224   <pending>     80:30108/TCP   11s   app=heart-api
