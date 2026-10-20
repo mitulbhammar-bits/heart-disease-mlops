@@ -218,7 +218,7 @@ def main():
     report.heading("Open the tracking interface")
     report.text("<font face='Courier' size='9'>mlflow ui --backend-store-uri sqlite:///mlflow.db --host 127.0.0.1 --port 5000</font>")
     report.image("screenshots/mlflow_experiments.png", 88,
-                 "MLflow UI: candidate runs and the selected-model holdout run.")
+                 "MLflow UI: an earlier run plus the clean re-run on this VM (latest batch used).")
     report.image("screenshots/mlflow_run_detail.png", 88,
                  "One run: cross-validation metrics, parameters, tags and source commit.")
     report.image("screenshots/mlflow_run_artifacts.png", 88,
@@ -316,9 +316,12 @@ def main():
                 "MLflow: mlflow.org/docs/latest/ml/tracking/. FastAPI: fastapi.tiangolo.com/deployment/docker/. "
                 "scikit-learn: scikit-learn.org/stable/modules/compose.html. Kubernetes: "
                 "kubernetes.io/docs/concepts/services-networking/service/.", "small")
-    report.text("Explain why imputation belongs inside CV, why selection excludes the holdout, what probability "
-                "and confidence mean, how CI surfaces failures, and why liveness differs from readiness. "
-                "Personal experimentation and a live demonstration support the independent-work requirement.")
+    report.text("Key decisions: imputation and scaling sit inside the cross-validation pipeline so validation and "
+                "holdout rows never influence training. The model is chosen on CV ROC-AUC alone and the holdout is "
+                "used once, afterwards. Confidence is the probability of the predicted class, not clinical certainty. "
+                "CI fails the build on lint, test or container errors, and liveness (the process is up) differs from "
+                "readiness (the model is loaded and can take traffic). Kubernetes was reached by port-forward because "
+                "the tunnel was unavailable on the lab host.")
     report.save()
     print(REPORTS / "assignment_report.pdf")
 
