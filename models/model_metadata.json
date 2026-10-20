@@ -4,7 +4,7 @@
     "C": 1.0
   },
   "selection_metric": "mean 5-fold training-only ROC-AUC",
-  "selected_run_id": "8ed6495200034938b9d588a0b78d8693",
+  "selected_run_id": "097936c41695478191e4eceefe8db525",
   "cv_roc_auc": 0.9024931590148981,
   "holdout_metrics": {
     "accuracy": 0.8852459016393442,

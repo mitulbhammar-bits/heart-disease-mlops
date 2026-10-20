@@ -217,8 +217,12 @@ def main():
                   ["Final evaluation", "selected-model-holdout run, ROC and confusion matrix artifacts"]], [170,341])
     report.heading("Open the tracking interface")
     report.text("<font face='Courier' size='9'>mlflow ui --backend-store-uri sqlite:///mlflow.db --host 127.0.0.1 --port 5000</font>")
-    report.image("screenshots/mlflow_experiments.png", 205,
-                 "MLflow UI: six candidate runs and the selected-model holdout run.")
+    report.image("screenshots/mlflow_experiments.png", 88,
+                 "MLflow UI: candidate runs and the selected-model holdout run.")
+    report.image("screenshots/mlflow_run_detail.png", 88,
+                 "One run: cross-validation metrics, parameters, tags and source commit.")
+    report.image("screenshots/mlflow_run_artifacts.png", 88,
+                 "The same run's artifacts: cross-validation plot, fold metrics and source manifest.")
     report.text("For portable reproduction, rerun training after moving the project: older SQLite run records "
                 "may retain absolute artifact locations. The joblib model has no custom project transformer and "
                 "works with the pinned serving dependencies. Tracked artifacts and explicit data hashes support "
