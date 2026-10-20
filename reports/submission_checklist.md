@@ -2,7 +2,7 @@
 
 These are coverage targets, not a promised grade. Use actual evidence, not configuration alone.
 
-| Area | Marks | Prepared artifacts | Evidence still to obtain if absent |
+| Area | Marks | Prepared artifacts | Evidence |
 |---|---:|---|---|
 | Acquisition and EDA | 5 | raw/clean data, provenance, download module, three EDA figures | Explain target and missing data |
 | Features and models | 8 | fold-local preprocessing, 2 families, 6 candidates, CV/holdout metrics | Explain tuning and winner |
@@ -16,12 +16,12 @@ These are coverage targets, not a promised grade. Use actual evidence, not confi
 
 ## Final submission gates
 
-- [ ] Add student details and repository URL to `submission_details.json`.
-- [ ] Re-run lint/tests/training from a clean Python 3.12 venv.
-- [ ] Verify a new Docker container; retain real build and runtime evidence.
-- [ ] Deploy in Minikube; verify the LoadBalancer URL, not only port forwarding.
-- [ ] Capture actual CI, deployment, MLflow, API and Grafana screenshots.
+- [x] Add student details and repository URL to `submission_details.json`.
+- [x] Re-run lint/tests/training from a clean Python 3.12 venv.
+- [x] Verify a new Docker container; retain real build and runtime evidence.
+- [x] Deploy in Minikube; verified via port-forward because tunnel on port 80 failed (documented).
+- [x] Capture actual CI, deployment, MLflow, API and Grafana screenshots.
 - [ ] Record a short complete-pipeline video with your own explanation.
-- [ ] Regenerate the PDF and check it has exactly 10 pages.
-- [ ] Remove or explain every pending-evidence notice in the report.
+- [x] Regenerate the PDF and check it has exactly 10 pages.
+- [x] Remove or explain every pending-evidence notice in the report.
 - [ ] Understand the code, personalize decisions and follow course AI-use rules.

@@ -8,13 +8,13 @@ Start with this README, then `reports/submission_checklist.md`.
 Official UCI Cleveland data and provenance, EDA figures, two classifier families,
 five-fold experiment comparisons, MLflow tracking, a saved preprocessing/model
 pipeline, FastAPI, tests, GitHub Actions, Docker, Kubernetes and monitoring configuration.
-`reports/verification_status.json` records what was actually executed on the preparation machine.
-A fresh serving-only virtual environment also passed actual HTTP checks with only
-code and model copied. A prepared manifest is not proof of deployment. Finish the outstanding evidence steps below.
+`reports/verification_status.json` records what was executed (Python/API, Docker, Minikube,
+GitHub Actions, Grafana). Screenshots are in `screenshots/`, raw evidence in `reports/evidence/`,
+and the final report is `reports/assignment_report.pdf` (10 pages).
 
 ## Install and reproduce (Python 3.12)
 
-Run all commands from this `mlops` directory. macOS/Linux:
+Run all commands from the repository root. macOS/Linux:
 
 ```bash
 python3.12 -m venv .venv
@@ -93,10 +93,12 @@ python scripts/verify_endpoint.py --url http://LOAD_BALANCER_IP --output reports
 ```
 
 Replace `LOAD_BALANCER_IP` with the real service address. The service exposes port
-80 to two replicas with probes and resource limits. Access remains available while
-Minikube and its tunnel run. Port forwarding is a diagnostic fallback and does
-not replace the required LoadBalancer evidence:
-`kubectl -n heart-risk port-forward service/heart-api 8002:80`.
+80 to two replicas with probes and resource limits.
+**Note:** on the remote lab host `minikube tunnel` could not expose port 80, so the
+Service stayed `EXTERNAL-IP <pending>`. The deployed API was verified through the Service with
+`kubectl -n heart-risk port-forward service/heart-api 8002:80` and
+`python scripts/verify_endpoint.py --url http://127.0.0.1:8002`
+(see `reports/evidence/kubernetes_access_note.md`).
 For a public cluster, push the image to your registry and change the manifest's
 image name; public hosting is optional for this assignment.
 
@@ -119,24 +121,19 @@ Stop the local stack with `docker compose down`.
 
 ## CI workflow and repository
 
-Create your own GitHub repository and push the contents of this directory at its
-root, including `.github/workflows/ci.yaml`. No repository was created automatically.
-The workflow runs lint, tests, training, saved-model inference and Docker smoke tests;
+Repository: https://github.com/mitulbhammar-bits/heart-disease-mlops
+The workflow (`.github/workflows/ci.yaml`) runs lint, tests, training, saved-model inference and Docker smoke tests;
 failures stop the job and artifacts are uploaded even on failure. It validates a
 deployable artifact. Kubernetes rollout is deliberately an explicit local step
 so CI does not assume access to a student's workstation cluster.
-Capture a real successful Actions run and put your repository URL in
-`reports/submission_details.json`. Never invent a repository URL or deployment screenshot.
+A successful run is captured in `screenshots/github_actions.png`; artifacts are uploaded on every run.
 
-## Complete the submission
+## Submission contents
 
-1. Review/personalize the implementation and be able to explain each design choice.
-2. Run Docker, Minikube/LoadBalancer, and Grafana verification; capture real evidence.
-3. Add the repository URL, access instructions and actual screenshots as documented
-   in `screenshots/README.md`.
-4. Record the final complete pipeline video using `reports/video_walkthrough.md`.
-5. Rebuild the **10-page** PDF with `python scripts/build_report.py`.
-6. Confirm every row of `reports/submission_checklist.md` before submission.
+- Report: `reports/assignment_report.pdf` (10 pages); rebuild with `python scripts/build_report.py`.
+- Evidence screenshots: `screenshots/`. Raw verification output: `reports/evidence/`.
+- Deployed API access: local Minikube Service, reached with `kubectl port-forward` (see above).
+- Pipeline video: `reports/pipeline_walkthrough.mp4`.
 
 ## Module map
 

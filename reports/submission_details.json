@@ -2,6 +2,6 @@
   "student_name": "BHAMMAR MITUL HARSHADRAI",
   "student_id": "2025ae05118",
   "repository_url": "https://github.com/mitulbhammar-bits/heart-disease-mlops",
-  "deployed_api_access": "Local Kubernetes LoadBalancer via Minikube tunnel on http://127.0.0.1:80/predict (verified via scripts/verify_endpoint.py)",
+  "deployed_api_access": "Local Minikube LoadBalancer Service, verified via kubectl port-forward: http://127.0.0.1:8002/predict (see reports/evidence/kubernetes_access_note.md)",
   "video_file": "reports/pipeline_walkthrough.mp4"
 }

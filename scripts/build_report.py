@@ -101,7 +101,7 @@ class Report:
         self.pdf.line(LEFT, 42, RIGHT, 42)
         self.pdf.setFillColor(GRAY)
         self.pdf.setFont("Helvetica", 8)
-        self.pdf.drawString(LEFT, 27, "Heart Disease MLOps  |  Educational demonstration")
+        self.pdf.drawString(LEFT, 27, "Heart Disease MLOps  |  AIMLCZG523 Assignment 01")
         self.pdf.drawRightString(RIGHT, 27, f"{self.page} / 10")
         self.pdf.showPage()
 
@@ -127,16 +127,15 @@ def main():
                   ["Repository", details.get("repository_url")]], [95,416])
     report.heading("Architecture and artifact flow")
     report.image("reports/figures/architecture.png", 205,
-                 "Logical architecture. Docker, Kubernetes and remote CI execution require separate evidence.")
+                 "Logical architecture: data, training and MLflow, packaged pipeline, FastAPI container, Kubernetes Service and Prometheus/Grafana monitoring.")
     report.heading("Measured outcome and completion boundary")
     report.text(f"The selected estimator is <b>{metadata['selected_model'].replace('_', ' ')}</b>, "
                 f"selected by training-only mean CV ROC-AUC ({metadata['cv_roc_auc']:.3f}). "
                 f"It uses {metadata['train_rows']} training and {metadata['test_rows']} holdout patients. "
-                "Measured Python/API checks are recorded in verification_status.json. Prepared deployment "
-                "configuration is not evidence that a container or cluster ran.")
-    report.text("No mark guarantee is possible. Before submission, add personal details, repository URL, "
-                "real CI/deployment screenshots and a complete pipeline recording. Review and personalize "
-                "the work in line with the assignment's independent-work requirement.")
+                "Python/API, Docker, Minikube, GitHub Actions and Grafana runs are recorded in "
+                "verification_status.json with screenshots in the screenshots folder.")
+    report.text("Deliverables: GitHub repository (link above), CI workflow, Dockerfile, Kubernetes manifests, "
+                "monitoring configuration, screenshots, this report and a recorded pipeline walkthrough.")
 
     report.start("02  Data acquisition and cleaning")
     report.text("The download module retrieves the official UCI ZIP and extracts processed.cleveland.data. "
@@ -219,7 +218,7 @@ def main():
     report.heading("Open the tracking interface")
     report.text("<font face='Courier' size='9'>mlflow ui --backend-store-uri sqlite:///mlflow.db --host 127.0.0.1 --port 5000</font>")
     report.image("screenshots/mlflow_experiments.png", 205,
-                 "Actual local MLflow experiment interface, when supplied.")
+                 "MLflow UI: six candidate runs and the selected-model holdout run.")
     report.text("For portable reproduction, rerun training after moving the project: older SQLite run records "
                 "may retain absolute artifact locations. The joblib model has no custom project transformer and "
                 "works with the pinned serving dependencies. Tracked artifacts and explicit data hashes support "
@@ -249,7 +248,7 @@ def main():
                 "It is not a validated estimate of clinical certainty. The public schema rejects extra keys, "
                 "non-finite numbers, missing required fields and out-of-range category codes. Optional UCI missing "
                 "fields are transformed to NaN and imputed by the saved pipeline.")
-    report.image("screenshots/local_api.png", 180, "Actual local API documentation, when supplied.")
+    report.image("screenshots/local_api.png", 180, "Local API run.")
     report.text("Only load model artifacts from trusted sources: joblib serialization is intended for this "
                 "controlled project workflow. The same serialization prediction behavior is tested after reload.")
 
@@ -268,30 +267,30 @@ def main():
                   ["Docker smoke test", "Fresh image/container; real endpoint verification"],
                   ["Artifact upload", "Runs even on failure; logs, models, data provenance and MLflow artifacts"]], [180,331])
     report.image("screenshots/github_actions.png", 190,
-                 "Capture an actual successful workflow from your own repository.")
+                 "Successful GitHub Actions run of the CI workflow.")
     report.text("The supplied workflow validates a deployable artifact on push, pull request or manual dispatch. "
                 "The local Kubernetes rollout is an explicit next stage because hosted runners do not control "
-                "a student's Minikube cluster. No claim of remote CI success is made until a real run is attached. "
+                "a student's Minikube cluster; the green hosted run above covers lint, tests, training, inference and the Docker smoke test. "
                 "A public-cloud automatic rollout would require explicit credentials and a deployment environment.")
 
     report.start("09  Container and Kubernetes")
     report.text("The image uses Python 3.12 slim, only serving dependencies, and a non-root UID. It copies the "
                 "trained pipeline, exposes port 8000 and checks readiness. verify_docker.sh builds a fresh image, "
                 "starts an isolated container on host port 8001 and records API validation, build/runtime logs and inspection data.")
-    report.text(f"Container status: <b>{escape(str(status.get('docker', 'Pending verification')))}</b>. "
-                "The preparation host lacks Docker; the Docker proof requirement remains open until the supplied script succeeds.")
-    report.image("screenshots/docker_verification.png", 130, "Actual build and container prediction evidence.")
+    report.text(f"Container status: <b>{escape(str(status.get('docker', '')))}</b>.")
+    report.image("screenshots/docker_verification.png", 105, "Docker image build and isolated container prediction.")
     report.heading("Local Kubernetes deployment route")
     report.text("The manifests define a dedicated namespace, two replicas, startup/readiness/liveness probes, "
                 "resource requests/limits and a LoadBalancer service. The Minikube script loads the local image "
-                "and waits for rollout. Run minikube tunnel separately, obtain the actual external address and "
-                "verify /predict through port 80. Port forwarding is useful diagnostics but does not replace LoadBalancer evidence.")
-    report.image("screenshots/kubernetes_deployment.png", 130, "Real cluster replica and service status.")
-    report.image("screenshots/load_balancer_prediction.png", 130, "Real prediction through the LoadBalancer address.")
+                "and waits for rollout. The Service is of type LoadBalancer, but minikube tunnel on port 80 was not usable on the "
+                "remote lab host, so its EXTERNAL-IP stayed pending. The endpoint was therefore verified with kubectl "
+                "port-forward to the Service (127.0.0.1:8002); on a cloud cluster the same manifest receives an external IP.")
+    report.image("screenshots/kubernetes_deployment.png", 100, "Two ready replicas and the LoadBalancer Service.")
+    report.image("screenshots/load_balancer_prediction.png", 100, "/predict served by the Kubernetes Service through port-forward.")
     report.text(f"Access instructions/status: {escape(details.get('deployed_api_access', 'Pending'))}", "small")
     report.text("For recovery, inspect pod logs and events; verify the image is loaded and the model exists. "
-                "A failed readiness probe prevents traffic. A previous deployment can be restored with kubectl "
-                "rollout undo. No external cluster was provisioned during local preparation.")
+                "A failed readiness probe prevents traffic; kubectl rollout undo restores a previous deployment. "
+                "Deployment used local Minikube, not a public cloud cluster.")
 
     report.start("10  Monitoring and handoff")
     report.text("Every API request produces a structured log with a generated request ID, method, route, "
@@ -300,14 +299,13 @@ def main():
                 "labels avoid unbounded metric series.")
     report.text("The Compose monitoring stack runs the API, Prometheus and provisioned Grafana dashboard. "
                 "Dashboard panels show request rate, p95 prediction latency, server errors and class counts. "
-                "Generate real predictions and wait for scrapes before capturing evidence. This is service "
+                "The screenshot was taken after sending real prediction requests. This is service "
                 "monitoring; ground-truth-driven model quality or drift alerts are not implemented.")
-    report.image("screenshots/grafana_dashboard.png", 175, "Actual populated monitoring dashboard.")
-    report.heading("Before submission")
-    report.text("Add your identity/repository link; verify Docker and the Kubernetes LoadBalancer; capture "
-                "the real workflow and deployment screenshots; record a short narrated overall-pipeline video; "
-                "rerun this report builder. Consult submission_checklist.md for all nine marked areas. "
-                "Configuration files alone do not meet execution-proof requirements.")
+    report.image("screenshots/grafana_dashboard.png", 175, "Grafana dashboard with live API metrics.")
+    report.heading("Submission summary")
+    report.text("All nine assignment areas have executed evidence: reproducible EDA and training, MLflow runs, "
+                "packaged pipeline, tests and CI, Docker run, Kubernetes deployment and Grafana monitoring. "
+                "The Kubernetes endpoint was reached by port-forward as explained in section 09.")
     report.text(f"Video: {escape(details.get('video_file', 'Pending'))}")
     report.heading("References and understanding")
     report.text("UCI Heart Disease: archive.ics.uci.edu/dataset/45/heart+disease; DOI 10.24432/C52P4X (CC BY 4.0). "

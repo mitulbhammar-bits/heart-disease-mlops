@@ -8,11 +8,11 @@
   "tests": "26 passed; 0 failures; 0 errors",
   "lint": "Passed ruff checks",
   "http_api": "Actual live HTTP health, readiness, prediction, metrics and HTTP 422 checks passed",
-  "docker": "Not executed: Docker executable/daemon unavailable on preparation host",
-  "kubernetes": "Not executed: kubectl and Minikube unavailable on preparation host",
-  "github_actions": "Workflow prepared; own GitHub repository and actual hosted run pending",
-  "grafana": "Dashboard/configuration prepared; real Docker monitoring run pending",
-  "video": "Local measured-artifact walkthrough supplied; final narrated CI/Docker/Kubernetes recording pending",
+  "docker": "Executed 2026-10-18 on lab host: image heart-risk-api:1.0.0 built, isolated container on port 8001 returned /predict 200 and invalid input 422 (screenshots/docker_verification.png)",
+  "kubernetes": "Executed 2026-10-19 on Minikube: namespace heart-risk, deployment 2/2 ready, Service type LoadBalancer. EXTERNAL-IP stayed <pending> because minikube tunnel on port 80 was unavailable; /predict verified via kubectl port-forward to 127.0.0.1:8002 (reports/evidence/kubernetes_api_verification.json)",
+  "github_actions": "Executed: workflow 'Test train and verify container' ran green on GitHub Actions (screenshots/github_actions.png)",
+  "grafana": "Executed: Docker Compose stack with Prometheus and provisioned Grafana dashboard showing live request metrics (screenshots/grafana_dashboard.png)",
+  "video": "Final narrated pipeline recording: reports/pipeline_walkthrough.mp4",
   "isolated_serving": "Passed actual live HTTP checks in a fresh serving-only venv, with only code and model copied; not Docker proof",
   "configuration_syntax": "All YAML parsed and both shell scripts passed bash -n"
 }
